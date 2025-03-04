@@ -197,3 +197,4 @@ bar {
         status_command i3status
 }
 
+hide_edge_borders both 

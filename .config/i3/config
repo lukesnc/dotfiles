@@ -41,14 +41,6 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# brightness control
-bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 10%+
-bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
-
-# kbd backlight
-bindsym XF86KbdBrightnessUp exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%+
-bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%-
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
@@ -197,7 +189,21 @@ bar {
         status_command i3status
 }
 
+## custom
+
+# brightness control
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 10%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
+
+# kbd backlight
+bindsym XF86KbdBrightnessUp exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%+
+bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%-
+
+# hide edges but keep top title bar
 hide_edge_borders both
 
 # fcitx5 jp input
 exec --no-startup-id fcitx5 -d
+
+# redshift
+exec --no-startup-id redshift -l 35.58:-78.80

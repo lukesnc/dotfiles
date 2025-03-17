@@ -202,8 +202,11 @@ bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl -d *::kbd_backl
 # hide edges but keep top title bar
 hide_edge_borders both
 
-# fcitx5 jp input
-exec --no-startup-id fcitx5 -d
+# wallpaper
+exec --no-startup-id feh --bg-scale ~/Pictures/108948084_p0.png
 
 # redshift
 exec --no-startup-id redshift -l 35.58:-78.80
+
+# fcitx5 jp input
+exec --no-startup-id fcitx5 -d

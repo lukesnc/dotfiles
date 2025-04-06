@@ -1,4 +1,6 @@
 #!/bin/bash
+# Run from the root of the repo ie.
+# $ ./scripts/i3setup.sh
 
 sudo pacman -S i3 alacritty rofi brightnessctl network-manager-applet
 

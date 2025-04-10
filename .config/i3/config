@@ -210,3 +210,5 @@ exec --no-startup-id redshift -l 35.58:-78.80
 
 # fcitx5 jp input
 exec --no-startup-id fcitx5 -d
+
+exec --no-startup-id blueman-applet

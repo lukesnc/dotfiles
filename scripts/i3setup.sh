@@ -2,7 +2,7 @@
 # Run from the root of the repo ie.
 # $ ./scripts/i3setup.sh
 
-sudo pacman -S i3 alacritty rofi brightnessctl network-manager-applet gnu-free-fonts noto-fonts
+sudo pacman -S i3 xss-lock alacritty rofi brightnessctl network-manager-applet gnu-free-fonts noto-fonts
 
 mkdir -v -p ~/.config/i3
 cp -v ./.config/i3/config ~/.config/i3/

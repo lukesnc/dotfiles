@@ -189,13 +189,9 @@ bar {
         status_command i3status
 }
 
-## custom
-
 # brightness control
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 10%+
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
-
-# kbd backlight
 bindsym XF86KbdBrightnessUp exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%+
 bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%-
 
@@ -211,4 +207,5 @@ exec --no-startup-id redshift -l 35.58:-78.80
 # fcitx5 jp input
 exec --no-startup-id fcitx5 -d
 
+# blueman applet for bluetooth
 exec --no-startup-id blueman-applet

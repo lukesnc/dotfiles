@@ -28,6 +28,5 @@ if [[ -z $vstpath ]]; then
 fi
 
 echo "Found $vstpath"
-outpath="$(dirname $path)"
-cp -r $vstpath $outpath
-echo "Plugin copied to $outpath/$(basename $vstpath)"
+cp -r $vstpath $(pwd)
+echo "Plugin copied to $(pwd)/$(basename $vstpath)"

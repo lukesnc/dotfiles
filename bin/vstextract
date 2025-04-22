@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Quickly rip the vst3 folder out of an installer
+# Only works on MacOS right now
+
+if [[ -z $1 ]]; then
+    echo "usage: $0 PKG"
+    exit 1
+elif [[ ! -e $1 ]]; then
+    echo "error: $1 is not a valid path"
+    exit 1
+fi
+
+path=$(realpath $1)
+echo "Processing $path"
+
+tmpdir="/tmp/$(basename $path)"
+rm -r $tmpdir
+pkgutil --expand-full $path $tmpdir
+if [[ $? -ne 0 ]]; then
+    # Quit if pkgutil failed
+    exit $?
+fi
+
+vstpath=$(find $tmpdir -type d -name "*.vst3" -print -quit || find $tmpdir -type f -name "*.vst3" -print -quit)
+if [[ -z $vstpath ]]; then
+    echo "error: Could not find VST3 assets inside pkg"
+    exit 1
+fi
+
+echo "Found $vstpath"
+outpath="$(dirname $path)"
+cp -r $vstpath $outpath
+echo "Plugin copied to $outpath/$(basename $vstpath)"

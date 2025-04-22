@@ -14,7 +14,7 @@ path=$(realpath $1)
 echo "Processing $path"
 
 tmpdir="/tmp/$(basename $path)"
-rm -r $tmpdir
+rm -rf $tmpdir
 pkgutil --expand-full $path $tmpdir
 if [[ $? -ne 0 ]]; then
     # Quit if pkgutil failed

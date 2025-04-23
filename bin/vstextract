@@ -26,7 +26,14 @@ if [[ -z $vstpath ]]; then
     echo "error: Could not find VST3 assets inside pkg"
     exit 1
 fi
-
 echo "Found $vstpath"
-cp -r $vstpath .
-echo "Plugin copied to $(pwd)/$(basename $vstpath)"
+
+installdir="/Library/Audio/Plug-Ins/VST3"
+echo "Attempting to move plugin to $installdir"
+sudo mkdir -p $installdir
+if [[ $? -ne 0 ]]; then
+    exit $?
+fi
+
+sudo cp -r $vstpath $installdir
+echo "Plugin successfully copied to $installdir/$(basename $vstpath)"

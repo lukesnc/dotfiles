@@ -189,17 +189,16 @@ bar {
         status_command i3status
 }
 
+hide_edge_borders both
+
 # brightness control
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set 10%+
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
 bindsym XF86KbdBrightnessUp exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%+
 bindsym XF86KbdBrightnessDown exec --no-startup-id brightnessctl -d *::kbd_backlight set 10%-
 
-# hide edges but keep top title bar
-hide_edge_borders both
-
 # wallpaper
-exec --no-startup-id feh --bg-scale ~/Pictures/108948084_p0.png
+#exec --no-startup-id feh --bg-scale ~/Pictures/WALL
 
 # redshift
 exec --no-startup-id redshift -l 35.58:-78.80

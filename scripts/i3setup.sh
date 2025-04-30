@@ -1,16 +1,20 @@
 #!/bin/bash
 # Run from the root of the repo ie.
+# Only works on Arch rn
 # $ ./scripts/i3setup.sh
 
 sudo pacman -S i3 xss-lock alacritty rofi brightnessctl network-manager-applet gnu-free-fonts noto-fonts
 
 mkdir -v -p ~/.config/i3
-cp -v ./.config/i3/config ~/.config/i3/
+cp -v ./.config/i3/config ~/.config/i3/config
+
+mkdir -v -p ~/.config/i3status
+cp -v ./.config/i3status/config ~/.config/i3status/config
 
 mkdir -v -p ~/.config/rofi
-cp -v ./.config/rofi/config.rasi ~/.config/rofi/
+cp -v ./.config/rofi/config.rasi ~/.config/rofi/config.rasi
 
-cp -v ./.xinitrc ~
+cp -v ./.xinitrc ~/.xinitrc
 
 echo 'if [ -z "$DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
   exec startx

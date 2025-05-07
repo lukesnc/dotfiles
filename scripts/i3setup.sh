@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Only works with pacman rn 
 
 set -e

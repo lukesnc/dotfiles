@@ -3,7 +3,7 @@
 
 set -e
 
-sudo pacman -S i3 xss-lock alacritty rofi brightnessctl network-manager-applet gnu-free-fonts noto-fonts xclip
+sudo pacman -S xorg-server xorg-xinit xclip xss-lock i3-wm i3status i3lock alacritty rofi brightnessctl network-manager-applet gnu-free-fonts noto-fonts noto-fonts-cjk
 
 repodir=$(realpath "$(dirname "$0")/..")
 mkdir -vp ~/.config

@@ -3,13 +3,12 @@
 
 set -e
 
-sudo pacman -S xorg-server xorg-xinit xclip xss-lock i3-wm i3status i3lock alacritty rofi brightnessctl network-manager-applet gnu-free-fonts noto-fonts noto-fonts-cjk
+sudo pacman -S xorg-server xorg-xinit xclip xss-lock i3-wm i3status i3lock dmenu brightnessctl network-manager-applet gnu-free-fonts noto-fonts noto-fonts-cjk
 
 repodir=$(realpath "$(dirname "$0")/..")
 mkdir -vp ~/.config
 cp -vr "$repodir/.config/i3" ~/.config
 cp -vr "$repodir/.config/i3status" ~/.config
-cp -vr "$repodir/.config/rofi" ~/.config
 cp -v "$repodir/.xinitrc" ~/.xinitrc
 
 cat << EOF

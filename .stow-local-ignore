@@ -8,3 +8,5 @@ etc
 
 \.clang-format
 \.vimrc
+\.config/rofi
+\.config/nvim

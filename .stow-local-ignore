@@ -3,8 +3,6 @@
 \.gitmodules
 
 scripts
-bin
-etc
 
 \.clang-format
 \.vimrc

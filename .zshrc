@@ -2,15 +2,11 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-# zstyle :compinstall filename '/home/luke/.zshrc'
+setopt autocd extendedglob
 
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-PS1='[%n@%F{red}%m%f %1~]%# '
+PROMPT='[%n@%F{red}%m%f %1~]%# '

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Quickly rip the vst3 folder out of an installer
-# Only works on MacOS right now
+
+set -e
+
+VSTPATH="/Library/Audio/Plug-Ins/VST"
+VST3PATH="/Library/Audio/Plug-Ins/VST3"
 
 if [[ -z $1 ]]; then
     echo "usage: $0 PKG"
@@ -13,27 +17,20 @@ fi
 path=$(realpath $1)
 echo "Processing $path"
 
+# TODO: add support for zip archives
 tmpdir="/tmp/$(basename $path)"
 rm -rf $tmpdir
 pkgutil --expand-full $path $tmpdir
-if [[ $? -ne 0 ]]; then
-    # Quit if pkgutil failed
-    exit $?
-fi
 
-vstpath=$(find $tmpdir -type d -name "*.vst3" -print -quit || find $tmpdir -type f -name "*.vst3" -print -quit)
-if [[ -z $vstpath ]]; then
+artifactpath=$(find $tmpdir -type d -name "*.vst3" -print -quit || find $tmpdir -type f -name "*.vst3" -print -quit)
+if [[ -z $artifactpath ]]; then
     echo "error: Could not find VST3 assets inside pkg"
     exit 1
 fi
-echo "Found $vstpath"
+echo "Found $artifactpath"
 
-installdir="/Library/Audio/Plug-Ins/VST3"
-echo "Attempting to move plugin to $installdir"
-sudo mkdir -p $installdir
-if [[ $? -ne 0 ]]; then
-    exit $?
-fi
+echo "Attempting to move plugin to $VST3PATH"
+sudo mkdir -p $VST3PATH
 
-sudo cp -r $vstpath $installdir
-echo "Plugin successfully copied to $installdir/$(basename $vstpath)"
+sudo cp -r $artifactpath $VST3PATH
+echo "Plugin successfully copied to $VST3PATH/$(basename $artifactpath)"

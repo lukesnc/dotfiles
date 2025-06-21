@@ -7,7 +7,7 @@ VSTPATH="/Library/Audio/Plug-Ins/VST"
 VST3PATH="/Library/Audio/Plug-Ins/VST3"
 
 if [[ -z $1 ]]; then
-    echo "usage: $0 PKG"
+    echo "usage: vstextract PKG"
     exit 1
 elif [[ ! -e $1 ]]; then
     echo "error: $1 is not a valid path"
@@ -31,6 +31,5 @@ echo "Found $artifactpath"
 
 echo "Attempting to move plugin to $VST3PATH"
 sudo mkdir -p $VST3PATH
-
 sudo cp -r $artifactpath $VST3PATH
 echo "Plugin successfully copied to $VST3PATH/$(basename $artifactpath)"

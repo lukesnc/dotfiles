@@ -6,7 +6,6 @@ setopt autocd extendedglob
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
-setopt auto_menu menu_complete
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'

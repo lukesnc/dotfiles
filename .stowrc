@@ -1,0 +1,5 @@
+--target="$HOME"
+--ignore='bin'
+--ignore='\.stowrc'
+--ignore='\.vimrc'
+--ignore='\.clang-format'

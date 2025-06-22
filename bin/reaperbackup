@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -ex
+
+DRIVE="/Volumes/vault3"
+
+# Make sure backup drive exists
+[ -d $DRIVE ]
+
+# Check for dry run
+rsync_args=("-av")
+while getopts "n" opt; do
+  case $opt in
+    n)
+      rsync_args+=("-n")
+      ;;
+  esac
+done
+
+# Sync
+rsync "${rsync_args[@]}" "$HOME/Documents/REAPER Media/" "$DRIVE/Music/REAPER Media Backup"

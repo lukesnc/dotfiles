@@ -6,8 +6,12 @@ set -e
 VSTPATH="/Library/Audio/Plug-Ins/VST"
 VST3PATH="/Library/Audio/Plug-Ins/VST3"
 
+# check required commands
+command -v 7z >/dev/null
+command -v pkgutil >/dev/null
+
 if [[ -z $1 ]]; then
-    echo "usage: vstextract PKG"
+    echo "usage: vstextract PKG|DMG|ZIP"
     exit 1
 elif [[ ! -e $1 ]]; then
     echo "error: $1 is not a valid path"
@@ -17,19 +21,29 @@ fi
 path=$(realpath $1)
 echo "Processing $path"
 
-# TODO: add support for zip archives
+# Prep temp spot make sure it doesnt already exist
 tmpdir="/tmp/$(basename $path)"
 rm -rf $tmpdir
-pkgutil --expand-full $path $tmpdir
 
-artifactpath=$(find $tmpdir -type d -name "*.vst3" -print -quit || find $tmpdir -type f -name "*.vst3" -print -quit)
-if [[ -z $artifactpath ]]; then
+# Extract
+if [[ $path == *.pkg ]]; then
+    pkgutil --expand-full $path $tmpdir
+elif [[ $path == *.zip || $path == *.dmg ]]; then
+    7z x $path -o$tmpdir
+else
+    echo "error: unsupported filetype $1"
+    exit 1
+fi
+
+# Find artifact and copy to VST3 path
+artifact=$(find $tmpdir -name "*.vst3" -print -quit) 
+if [[ -z $artifact ]]; then
     echo "error: Could not find VST3 assets inside pkg"
     exit 1
 fi
-echo "Found $artifactpath"
+echo "Found $artifact"
 
 echo "Attempting to move plugin to $VST3PATH"
 sudo mkdir -p $VST3PATH
-sudo cp -r $artifactpath $VST3PATH
-echo "Plugin successfully copied to $VST3PATH/$(basename $artifactpath)"
+sudo cp -r $artifact $VST3PATH
+echo "Plugin successfully copied to $VST3PATH/$(basename $artifact)"

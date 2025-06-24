@@ -23,13 +23,13 @@ echo "Processing $path"
 
 # Prep temp spot make sure it doesnt already exist
 tmpdir="/tmp/$(basename $path)"
-rm -rf $tmpdir
+rm -rf "$tmpdir"
 
 # Extract
 if [[ $path == *.pkg ]]; then
-    pkgutil --expand-full $path $tmpdir
+    pkgutil --expand-full "$path" "$tmpdir"
 elif [[ $path == *.zip || $path == *.dmg ]]; then
-    7z x $path -o$tmpdir
+    7z x "$path" -o"$tmpdir"
 else
     echo "error: unsupported filetype $1"
     exit 1
@@ -44,6 +44,6 @@ fi
 echo "Found $artifact"
 
 echo "Attempting to move plugin to $VST3PATH"
-sudo mkdir -p $VST3PATH
-sudo cp -r $artifact $VST3PATH
+sudo mkdir -p "$VST3PATH"
+sudo cp -r "$artifact" "$VST3PATH"
 echo "Plugin successfully copied to $VST3PATH/$(basename $artifact)"

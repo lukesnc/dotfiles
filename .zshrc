@@ -1,7 +1,8 @@
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
 HISTSIZE=1000
 SAVEHIST=1000
+HISTCONTROL=ignoreboth
 setopt autocd extendedglob
 setopt no_case_glob
 

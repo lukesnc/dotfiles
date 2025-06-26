@@ -6,10 +6,7 @@ set -e
 VSTPATH="/Library/Audio/Plug-Ins/VST"
 VST3PATH="/Library/Audio/Plug-Ins/VST3"
 
-# check required commands
-command -v 7z >/dev/null
-command -v pkgutil >/dev/null
-
+# Get args
 if [[ -z $1 ]]; then
     echo "usage: vstextract PKG|DMG|ZIP"
     exit 1
@@ -18,27 +15,35 @@ elif [[ ! -e $1 ]]; then
     exit 1
 fi
 
-path=$(realpath $1)
-echo "Processing $path"
+inpath=$(realpath $1)
+echo "Processing $inpath"
 
 # Prep temp spot make sure it doesnt already exist
-tmpdir="/tmp/$(basename $path)"
-rm -rf "$tmpdir"
+extractpath="/tmp/$(basename $inpath)"
+rm -rf "$extractpath"
 
 # Extract
-if [[ $path == *.pkg ]]; then
-    pkgutil --expand-full "$path" "$tmpdir"
-elif [[ $path == *.zip || $path == *.dmg ]]; then
-    7z x "$path" -o"$tmpdir"
+# TODO: implement some kind of recursing or recheck since some
+# plugins shove a .pkg installer inside a zip (dumb)
+if [[ $inpath == *.pkg ]]; then
+    command -v pkgutil >/dev/null
+    pkgutil --expand-full "$inpath" "$extractpath"
+elif [[ $inpath == *.dmg ]]; then
+    command -v 7z >/dev/null
+    7z x "$inpath" -o"$extractpath"
+elif [[ $inpath == *.tar* || $inpath == *.zip ]]; then
+    command -v tar >/dev/null
+    mkdir -p "$extractpath"
+    tar -xvzf "$inpath" -C "$extractpath"
 else
     echo "error: unsupported filetype $1"
     exit 1
 fi
 
 # Find artifact and copy to VST3 path
-artifact=$(find $tmpdir -name "*.vst3" -print -quit) 
+artifact=$(find $extractpath -name "*.vst3" -print -quit) 
 if [[ -z $artifact ]]; then
-    echo "error: Could not find VST3 assets inside pkg"
+    echo "error: Could not find VST3 assets in $extractpath"
     exit 1
 fi
 echo "Found $artifact"

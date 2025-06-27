@@ -3,58 +3,7 @@
 
 set -e
 
-VSTPATH="/Library/Audio/Plug-Ins/VST"
-VST3PATH="/Library/Audio/Plug-Ins/VST3"
-
-findvst() {
-    # Get path
-    inpath=$(realpath "$1")
-    echo "Processing $inpath"
-
-    # Prep temp spot make sure it doesnt already exist
-    extractpath="/tmp/$(basename "$inpath")"
-    rm -rf "$extractpath"
-
-    # Extract
-    case "$inpath" in
-        *.pkg)
-            command -v pkgutil >/dev/null
-            pkgutil --expand-full "$inpath" "$extractpath"
-            ;;
-        *.dmg)
-            command -v 7z >/dev/null
-            7z x "$inpath" -o"$extractpath"
-            ;;
-        *.tar* | *.zip)
-            command -v tar >/dev/null
-            mkdir -p "$extractpath"
-            tar -xvzf "$inpath" -C "$extractpath"
-            ;;
-        *)
-            echo "error: unsupported filetype $1"
-            return 1
-            ;;
-    esac
-
-    # Find artifact and copy to VST3 path
-    artifact=$(find "$extractpath" -name "*.vst3" -print -quit)
-    if [[ -z $artifact ]]; then
-        echo "error: Could not find VST3 assets in $extractpath"
-
-        # Check if we should run the search again
-        for ext in "*.pkg" "*.dmg" "*.tar*" "*.zip"; do
-            again=$(find "$extractpath" -name "$ext" -type f -print -quit)
-            if [[ -n $again ]]; then
-                echo "Found installer within parent package, retrying"
-                findvst "$again"
-            fi
-        done
-
-        return 1
-    fi
-    echo "Found $artifact"
-    return 0
-}
+vst3path="/Library/Audio/Plug-Ins/VST3"
 
 # Get args
 if [[ -z $1 ]]; then
@@ -65,9 +14,44 @@ elif [[ ! -e $1 ]]; then
     exit 1
 fi
 
-findvst "$1"
+inpath=$(realpath "$1")
+echo "Processing $inpath"
 
-echo "Attempting to move plugin to $VST3PATH"
-sudo mkdir -p "$VST3PATH"
-sudo cp -r "$artifact" "$VST3PATH"
-echo "Plugin successfully copied to $VST3PATH/$(basename "$artifact")"
+# Use temp dir
+extractpath=$(mktemp -d)
+
+# Extract
+# TODO: implement some kind of recursing or recheck since some
+# plugins shove a .pkg installer inside a zip (dumb)
+case "$inpath" in
+    *.pkg)
+        command -v pkgutil
+        pkgutil --expand-full "$inpath" "$extractpath"
+        ;;
+    *.dmg)
+        command -v 7z
+        7z x "$inpath" -o"$extractpath"
+        ;;
+    *.tar* | *.zip)
+        command -v tar
+        mkdir -p "$extractpath"
+        tar -xvzf "$inpath" -C "$extractpath"
+        ;;
+    *)
+        echo "error: unsupported filetype $1"
+        exit 1
+        ;;
+esac
+
+# Find artifact and copy to VST3 path
+artifact=$(find "$extractpath" -name "*.vst3" -print -quit) 
+if [[ -z $artifact ]]; then
+    echo "error: Could not find VST3 assets in $extractpath"
+    exit 1
+fi
+echo "Found $artifact"
+
+echo "Attempting to move plugin to $vst3path"
+sudo mkdir -p "$vst3path"
+sudo cp -r "$artifact" "$vst3path"
+echo "Plugin successfully copied to $vst3path/$(basename $artifact)"

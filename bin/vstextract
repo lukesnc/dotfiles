@@ -44,7 +44,7 @@ case "$inpath" in
 esac
 
 # Find artifact and copy to VST3 path
-artifact=$(find "$extractpath" -name "*.vst3" -print -quit) 
+artifact=$(find "$extractpath" -name "*.vst3" -print -quit)
 if [[ -z $artifact ]]; then
     echo "error: Could not find VST3 assets in $extractpath"
     exit 1
@@ -54,4 +54,4 @@ echo "Found $artifact"
 echo "Attempting to move plugin to $vst3path"
 sudo mkdir -p "$vst3path"
 sudo cp -r "$artifact" "$vst3path"
-echo "Plugin successfully copied to $vst3path/$(basename $artifact)"
+echo "Plugin successfully copied to $vst3path/$(basename "$artifact")"

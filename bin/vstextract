@@ -17,12 +17,10 @@ fi
 inpath=$(realpath "$1")
 echo "Processing $inpath"
 
-# Use temp dir
-extractpath=$(mktemp -d)
-
 # Extract
 # TODO: implement some kind of recursing or recheck since some
 # plugins shove a .pkg installer inside a zip (dumb)
+extractpath=$(mktemp -d)
 case "$inpath" in
     *.pkg)
         command -v pkgutil

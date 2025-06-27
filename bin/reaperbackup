@@ -2,13 +2,13 @@
 
 set -ex
 
-DRIVE="/Volumes/vault3"
+drive="/Volumes/vault3"
 
 # Check for rsync
 command -v rsync
 
 # Make sure backup drive exists
-[ -d "$DRIVE" ]
+[ -d "$drive" ]
 
 # Check for dry run
 rsync_args=("-av")
@@ -31,4 +31,4 @@ rsync_args+=(
 )
 
 # Sync
-rsync "${rsync_args[@]}" "$HOME/Documents/REAPER Media/" "$DRIVE/Music/REAPER Media Backup/"
+rsync "${rsync_args[@]}" "$HOME/Documents/REAPER Media/" "$drive/Music/REAPER Media Backup/"

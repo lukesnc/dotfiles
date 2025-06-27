@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Quickly rip the vst3 folder out of an installer
 
-set -e
+set -euo pipefail
 
-vst3path="/Library/Audio/Plug-Ins/VST3"
+vst3path='/Library/Audio/Plug-Ins/VST3'
 
 # Get args
 if [[ -z $1 ]]; then
-    echo "usage: vstextract PKG|DMG|ZIP|TAR"
+    echo 'usage: vstextract PKG|DMG|ZIP|TAR'
     exit 1
 elif [[ ! -e $1 ]]; then
     echo "error: $1 is not a valid path"
@@ -18,8 +18,6 @@ inpath=$(realpath "$1")
 echo "Processing $inpath"
 
 # Extract
-# TODO: implement some kind of recursing or recheck since some
-# plugins shove a .pkg installer inside a zip (dumb)
 extractpath=$(mktemp -d)
 case "$inpath" in
     *.pkg)
@@ -45,6 +43,16 @@ esac
 artifact=$(find "$extractpath" -name "*.vst3" -print -quit)
 if [[ -z $artifact ]]; then
     echo "error: Could not find VST3 assets in $extractpath"
+
+    # Check if we should run the search again
+    for ext in '*.pkg' '*.dmg' '*.tar*' '*.zip'; do
+        again=$(find "$extractpath" -name "$ext" -type f -print -quit)
+        if [[ -n $again ]]; then
+            echo 'Found installer within parent package, retrying'
+            "$0" "$again"
+        fi
+    done
+
     exit 1
 fi
 echo "Found $artifact"

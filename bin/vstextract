@@ -49,7 +49,7 @@ if [[ -z $artifact ]]; then
         again=$(find "$extractpath" -name "$ext" -type f -print -quit)
         if [[ -n $again ]]; then
             echo 'Found installer within parent package, retrying'
-            "$0" "$again"
+            exec "$0" "$again"
         fi
     done
 

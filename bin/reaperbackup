@@ -2,7 +2,7 @@
 
 set -ex
 
-drive="/Volumes/vault3"
+drive='/Volumes/vault3'
 
 # Check for rsync
 command -v rsync
@@ -11,11 +11,11 @@ command -v rsync
 [ -d "$drive" ]
 
 # Check for dry run
-rsync_args=("-av")
-while getopts "n" opt; do
+rsync_args=('-av')
+while getopts 'n' opt; do
     case "$opt" in
         n)
-            rsync_args+=("-n")
+            rsync_args+=('-n')
             ;;
     esac
 done
@@ -32,3 +32,5 @@ rsync_args+=(
 
 # Sync
 rsync "${rsync_args[@]}" "$HOME/Documents/REAPER Media/" "$drive/Music/REAPER Media Backup/"
+
+dot_clean "$drive"

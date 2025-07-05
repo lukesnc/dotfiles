@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Quickly rip the vst3 folder out of an installer
 
-set -euo pipefail
+set -eo pipefail
 
 vst3path='/Library/Audio/Plug-Ins/VST3'
 

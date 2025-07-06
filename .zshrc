@@ -11,4 +11,6 @@ zstyle ':completion:*' menu select
 
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
-PROMPT='[%n@%F{red}%m%f %1~]%# '
+# PROMPT='[%n@%F{red}%m%f %1~]%# '
+# YUKI. N>
+PROMPT='%n@%F{magenta}%m%f %1~> '

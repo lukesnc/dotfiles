@@ -3,11 +3,43 @@
 
 set -eo pipefail
 
-vst3path='/Library/Audio/Plug-Ins/VST3'
+show_help() {
+    cat << EOF
+usage: ${0##*/} [-32a] FILE
+Quickly rip the vst3/vst/component folder out of a plugin installer package.
 
-# Get args
+    -3  Search for .vst3 assets (default mode)
+    -2  Search for .vst (VST) assets
+    -a  Search for .component (AU) assets
+EOF
+}
+
+# Set mode of operation (VST3, VST, AU)
+# Default mode is VST3
+mode='3'
+installpath='/Library/Audio/Plug-Ins/VST3'
+searchpattern='*.vst3'
+
+OPTIND=1
+while getopts '32a' opt; do
+    case "$opt" in
+        2)
+            mode='2'
+            installpath='/Library/Audio/Plug-Ins/VST'
+            searchpattern='*.vst'
+            ;;
+        a)
+            mode='a'
+            installpath='/Library/Audio/Plug-Ins/Components'
+            searchpattern='*.component'
+            ;;
+    esac
+done
+shift "$((OPTIND-1))"
+
+# Get file path (required)
 if [[ -z $1 ]]; then
-    echo 'usage: vstextract PKG|DMG|ZIP|TAR'
+    show_help
     exit 1
 elif [[ ! -e $1 ]]; then
     echo "error: $1 is not a valid path"
@@ -40,16 +72,16 @@ case "$inpath" in
 esac
 
 # Find artifact and copy to VST3 path
-artifact=$(find "$extractpath" -name "*.vst3" -print -quit)
+artifact=$(find "$extractpath" -name "$searchpattern" -print -quit)
 if [[ -z $artifact ]]; then
-    echo "error: Could not find VST3 assets in $extractpath"
+    echo "error: Could not find plugin assets in $extractpath"
 
     # Check if we should run the search again
     for ext in '*.pkg' '*.dmg' '*.tar*' '*.zip'; do
         again=$(find "$extractpath" -name "$ext" -type f -print -quit)
         if [[ -n $again ]]; then
             echo 'Found installer within parent package, retrying'
-            exec "$0" "$again"
+            exec "$0" "-$mode" "$again"
         fi
     done
 
@@ -57,7 +89,7 @@ if [[ -z $artifact ]]; then
 fi
 echo "Found $artifact"
 
-echo "Attempting to move plugin to $vst3path"
-sudo mkdir -p "$vst3path"
-sudo cp -r "$artifact" "$vst3path"
-echo "Plugin successfully copied to $vst3path/$(basename "$artifact")"
+echo "Attempting to move plugin to $installpath"
+sudo mkdir -p "$installpath"
+sudo cp -r "$artifact" "$installpath"
+echo "Plugin successfully copied to $installpath/$(basename "$artifact")"

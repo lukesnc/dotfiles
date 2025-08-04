@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Quickly rip the vst3 folder out of an installer
 
 set -eo pipefail
 
@@ -8,9 +7,9 @@ show_help() {
 usage: ${0##*/} [-32a] FILE
 Quickly rip the vst3/vst/component folder out of a plugin installer package.
 
-    -3  Search for .vst3 assets (default mode)
-    -2  Search for .vst (VST) assets
-    -a  Search for .component (AU) assets
+    -3  Search for VST3 assets [.vst3] (default mode)
+    -2  Search for VST2 assets [.vst]
+    -a  Search for AU assets [.component]
 EOF
 }
 
@@ -87,7 +86,7 @@ if [[ -z $artifact ]]; then
 
     exit 1
 fi
-echo "Found $artifact"
+echo "Found $(basename "$artifact")"
 
 echo "Attempting to move plugin to $installpath"
 sudo mkdir -p "$installpath"

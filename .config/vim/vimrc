@@ -31,7 +31,7 @@ set viminfo=
 set lazyredraw
 
 try
-    colorscheme habamax
+    colorscheme slate
 catch
 endtry
 set background=dark

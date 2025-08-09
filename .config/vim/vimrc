@@ -1,0 +1,36 @@
+set nocompatible
+filetype indent plugin on
+syntax on
+set wrap
+set number
+set relativenumber
+set so=10
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set wildmenu
+set ruler
+set showmatch
+set hidden
+set shiftwidth=4
+set tabstop=4
+set softtabstop=4
+set expandtab
+set encoding=utf8
+set laststatus=2
+set splitright
+set splitbelow
+
+set vb t_vb=
+set viminfo=
+set lazyredraw
+set ttyfast
+
+try
+    colorscheme desert
+catch
+endtry
+set background=dark
+highlight Normal ctermbg=NONE guibg=NONE
+highlight NonText ctermbg=NONE guibg=NONE

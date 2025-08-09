@@ -22,13 +22,16 @@ set laststatus=2
 set splitright
 set splitbelow
 
+set nobackup
+set nowb
+set noswapfile
+
 set vb t_vb=
 set viminfo=
 set lazyredraw
-set ttyfast
 
 try
-    colorscheme desert
+    colorscheme habamax
 catch
 endtry
 set background=dark

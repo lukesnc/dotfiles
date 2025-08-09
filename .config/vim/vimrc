@@ -26,6 +26,9 @@ set nobackup
 set nowb
 set noswapfile
 
+set autoread
+au FocusGained,BufEnter * silent! checktime
+
 set vb t_vb=
 set viminfo=
 set lazyredraw

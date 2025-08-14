@@ -34,7 +34,7 @@ set viminfo=
 set lazyredraw
 
 try
-    colorscheme slate
+    colorscheme desert
 catch
 endtry
 set background=dark

@@ -59,7 +59,7 @@ case "$inpath" in
     command -v pkgutil
     pkgutil --expand-full "$inpath" "$extractpath"
     ;;
-*.dmg)
+*.dmg | *.7z)
     command -v 7z
     7z x "$inpath" -o"$extractpath"
     ;;

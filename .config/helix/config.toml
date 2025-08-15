@@ -1,0 +1,12 @@
+theme = "rose_pine_moon_nobg"
+
+[editor]
+line-number = "relative"
+scrolloff = 10
+auto-format = false
+
+[editor.cursor-shape]
+insert = "bar"
+
+[editor.file-picker]
+hidden = false

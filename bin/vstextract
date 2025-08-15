@@ -3,7 +3,7 @@
 set -eo pipefail
 
 show_help() {
-    cat << EOF
+    cat <<EOF
 usage: ${0##*/} [-32ah] FILE
 Quickly rip the vst3/vst/component folder out of a plugin installer package. Makes use of pkgutil, tar, 7z
   -3  Search for VST3 assets [.vst3] (default mode)
@@ -22,22 +22,23 @@ searchpattern='*.vst3'
 OPTIND=1
 while getopts '32ah' opt; do
     case "$opt" in
-        2)
-            mode='2'
-            installpath='/Library/Audio/Plug-Ins/VST'
-            searchpattern='*.vst'
-            ;;
-        a)
-            mode='a'
-            installpath='/Library/Audio/Plug-Ins/Components'
-            searchpattern='*.component'
-            ;;
-        h)
-            show_help
-            exit 0
+    2)
+        mode='2'
+        installpath='/Library/Audio/Plug-Ins/VST'
+        searchpattern='*.vst'
+        ;;
+    a)
+        mode='a'
+        installpath='/Library/Audio/Plug-Ins/Components'
+        searchpattern='*.component'
+        ;;
+    h)
+        show_help
+        exit 0
+        ;;
     esac
 done
-shift "$((OPTIND-1))"
+shift "$((OPTIND - 1))"
 
 # Get file path (required)
 if [[ -z $1 ]]; then
@@ -54,23 +55,23 @@ echo "Processing $inpath"
 # Extract
 extractpath=$(mktemp -u)
 case "$inpath" in
-    *.pkg)
-        command -v pkgutil
-        pkgutil --expand-full "$inpath" "$extractpath"
-        ;;
-    *.dmg)
-        command -v 7z
-        7z x "$inpath" -o"$extractpath"
-        ;;
-    *.tar* | *.zip)
-        command -v tar
-        mkdir -p "$extractpath"
-        tar -xvzf "$inpath" -C "$extractpath"
-        ;;
-    *)
-        echo "error: unsupported filetype $1"
-        exit 1
-        ;;
+*.pkg)
+    command -v pkgutil
+    pkgutil --expand-full "$inpath" "$extractpath"
+    ;;
+*.dmg)
+    command -v 7z
+    7z x "$inpath" -o"$extractpath"
+    ;;
+*.tar* | *.zip)
+    command -v tar
+    mkdir -p "$extractpath"
+    tar -xvzf "$inpath" -C "$extractpath"
+    ;;
+*)
+    echo "error: unsupported filetype $1"
+    exit 1
+    ;;
 esac
 
 # Find artifact and copy to VST3 path

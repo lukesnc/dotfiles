@@ -61,12 +61,12 @@ case "$inpath" in
     ;;
 *.dmg | *.7z)
     command -v 7z
-    7z x "$inpath" -o"$extractpath"
+    7z x "$inpath" -o"$extractpath" >/dev/null
     ;;
 *.tar* | *.zip)
     command -v tar
     mkdir -p "$extractpath"
-    tar -xvzf "$inpath" -C "$extractpath"
+    tar -xzf "$inpath" -C "$extractpath"
     ;;
 *)
     echo "error: unsupported filetype $1"

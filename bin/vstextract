@@ -55,21 +55,21 @@ echo "Processing $inpath"
 # Extract
 extractpath=$(mktemp -u)
 case "$inpath" in
-*.pkg)
-    command -v pkgutil
-    pkgutil --expand-full "$inpath" "$extractpath"
-    ;;
-*.dmg | *.7z)
-    command -v 7z
-    7z x "$inpath" -o"$extractpath" >/dev/null
-    ;;
-*.tar* | *.zip)
+*.tar* | *.zip | *.7z)
     command -v tar
     mkdir -p "$extractpath"
     tar -xzf "$inpath" -C "$extractpath"
     ;;
+*.pkg)
+    command -v pkgutil
+    pkgutil --expand-full "$inpath" "$extractpath"
+    ;;
+*.dmg)
+    command -v 7z
+    7z x "$inpath" -o"$extractpath" >/dev/null
+    ;;
 *)
-    echo "error: unsupported filetype $1"
+    echo "error: unsupported archive format $1"
     exit 1
     ;;
 esac

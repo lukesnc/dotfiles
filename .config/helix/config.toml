@@ -5,9 +5,14 @@ line-number = "relative"
 scrolloff = 10
 auto-pairs = false
 auto-format = false
+default-yank-register = "+"
 
 [editor.cursor-shape]
 insert = "bar"
 
 [editor.file-picker]
 hidden = false
+
+[keys.normal]
+"=" = ":format"
+D = "@vgld"

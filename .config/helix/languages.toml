@@ -5,6 +5,7 @@ formatter = { command = 'shfmt', args = ["-i", "4"] }
 [[language]]
 name = "markdown"
 soft-wrap.enable = true
+formatter = { command = 'prettierd', args = [".md"] }
 
 [[language]]
 name = "lua"

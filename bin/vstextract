@@ -52,6 +52,12 @@ fi
 inpath=$(realpath "$1")
 echo "Processing $inpath"
 
+# Save original inpath to env variable, in case the script
+# calls itself
+if [[ -z $VSTEXTRACT_ORIG_INPATH ]]; then
+    export VSTEXTRACT_ORIG_INPATH="$inpath"
+fi
+
 # Extract
 extractpath=$(mktemp -u)
 case "$inpath" in
@@ -96,3 +102,8 @@ echo "Attempting to move plugin to $installpath"
 sudo mkdir -p "$installpath"
 sudo cp -r "$artifact" "$installpath"
 echo "Plugin successfully copied to $installpath/$(basename "$artifact")"
+
+read -p "Delete original $VSTEXTRACT_ORIG_INPATH [y/N]: " yn
+if [[ $yn == [Yy]* ]]; then
+    rm -v "$VSTEXTRACT_ORIG_INPATH"
+fi

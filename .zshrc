@@ -1,5 +1,6 @@
-# Lines configured by zsh-newuser-install
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
+
+export EDITOR="hx"
 
 setopt extendedglob
 setopt no_case_glob

@@ -1,6 +1,6 @@
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
 
-export EDITOR="hx"
+export EDITOR='hx'
 # path+=()
 
 setopt extendedglob

@@ -1,11 +1,13 @@
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
 
-export EDITOR="hx"
+# Env stuff
+export EDITOR='hx'
 # path+=()
 
 setopt extendedglob
 setopt no_case_glob
 setopt globdots
+setopt interactive_comments
 
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select

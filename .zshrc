@@ -5,6 +5,7 @@ export EDITOR='hx'
 # path+=()
 
 setopt extendedglob
+setopt no_case_glob
 setopt globdots
 setopt interactive_comments
 

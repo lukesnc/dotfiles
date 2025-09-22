@@ -2,7 +2,6 @@ theme = "rose_pine_moon_nobg"
 
 [editor]
 line-number = "relative"
-scrolloff = 10
 auto-pairs = false
 auto-format = false
 default-yank-register = "+"

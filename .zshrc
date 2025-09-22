@@ -1,4 +1,5 @@
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh_history"
+setopt hist_ignore_dups hist_ignore_space
 
 # Env stuff
 export EDITOR='hx'
@@ -20,3 +21,4 @@ alias grep='grep --color=auto'
 
 # PROMPT='[%n@%F{red}%m%f %1~]%# '
 PROMPT='%n@%F{magenta}%m%f %1~> '
+# PROMPT='%F{cyan}%1~%f> '

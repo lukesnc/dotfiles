@@ -1,4 +1,4 @@
-.trash/
+.{t,T}rash/
 .obsidian/
 node_modules/
 target/

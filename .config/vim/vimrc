@@ -31,7 +31,10 @@ set vb t_vb=
 set viminfo=
 set lazyredraw
 
-colorscheme desert
+try
+    colorscheme desert
+catch
+endtry
 set background=dark
 highlight Normal ctermbg=NONE guibg=NONE
 highlight NonText ctermbg=NONE guibg=NONE

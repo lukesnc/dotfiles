@@ -17,8 +17,8 @@ zstyle ':completion:*' rehash true
 
 alias ls='ls -lh --color=auto'
 alias grep='grep --color=auto'
-# alias ssh='TERM=xterm-color ssh'
+# alias ssh='TERM=xterm-256color ssh'
 
 # PROMPT='[%n@%F{red}%m%f %1~]%# '
 PROMPT='%n@%F{magenta}%m%f %1~> '
-# PROMPT='[%F{green}%1~%f][%F{yellow}%?%f]%% '
+# PROMPT='[%F{green}%~%f][%F{yellow}%?%f]%% '

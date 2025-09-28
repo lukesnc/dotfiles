@@ -2,10 +2,16 @@
 
 set -eo pipefail
 
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    echo "error: this should only be ran on macOS"
+    exit 1
+fi
+
 show_help() {
     cat <<EOF
 usage: ${0##*/} [-32ah] FILE
-Quickly rip the vst3/vst/component folder out of a plugin installer package. Makes use of pkgutil, tar, 7z
+Quickly rip the vst3/vst/component folder out of a plugin installer package.
+depends: bsdtar pkgutil p7zip
   -3  Search for VST3 assets [.vst3] (default mode)
   -2  Search for VST2 assets [.vst]
   -a  Search for AU assets [.component]
@@ -62,6 +68,7 @@ fi
 extractpath=$(mktemp -u)
 case "$inpath" in
 *.tar* | *.zip | *.7z)
+    # For some reason bsdtar can handle zip, 7z + more
     command -v tar
     mkdir -p "$extractpath"
     tar -xzf "$inpath" -C "$extractpath"

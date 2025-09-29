@@ -22,3 +22,7 @@ formatter = { command = 'prettierd', args = [".css"] }
 [[language]]
 name = "javascript"
 formatter = { command = 'prettierd', args = [".js"] }
+
+[[language]]
+name = "nix"
+formatter = { command = "nixfmt" }

@@ -15,7 +15,9 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' rehash true
 
-alias ls='ls -lh --color=auto'
+alias ll='ls -lh'
+alias la='ls -lah'
+alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 # alias ssh='TERM=xterm-256color ssh'
 

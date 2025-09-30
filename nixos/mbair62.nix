@@ -16,6 +16,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  powerManagement.enable = true;
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -69,12 +71,9 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    tree
     helix
-    git
-    tmux
     alacritty
-    tlp
-    firefox
     mpv
     fastfetch
     btop
@@ -94,6 +93,9 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+  programs.git.enable = true;
+  programs.tmux.enable = true;
+  programs.firefox.enable = true;
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -106,6 +108,8 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services.tlp.enable = true;
+  services.resolved.enable = true;
+  services.avahi.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

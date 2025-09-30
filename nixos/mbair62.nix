@@ -7,7 +7,8 @@
 {
   imports = [ # Include the results of the hardware scan.
     <nixos-hardware/apple/macbook-air/6>
-    ./hardware-configuration.nix
+    # ./hardware-configuration.nix
+    /etc/nixos/hardware-configuration.nix
   ];
 
   # Bootloader.
@@ -70,7 +71,6 @@
     wget
     helix
     git
-    fish
     tmux
     alacritty
     tlp

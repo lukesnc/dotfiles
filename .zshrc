@@ -24,3 +24,4 @@ alias grep='grep --color=auto'
 # PROMPT='[%n@%F{red}%m%f %1~]%# '
 PROMPT='%n@%F{magenta}%m%f %1~> '
 # PROMPT='[%F{green}%~%f][%F{yellow}%?%f]%% '
+# PROMPT="$SHELL %F{167}%1~%f %# "

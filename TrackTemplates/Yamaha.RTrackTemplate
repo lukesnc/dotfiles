@@ -1,0 +1,45 @@
+<TRACK
+  NAME keys
+  PEAKCOL 33370721
+  BEAT -1
+  AUTOMODE 0
+  PANLAWFLAGS 3
+  VOLPAN 1 0 -1 -1 1
+  MUTESOLO 0 0 0
+  IPHASE 0
+  PLAYOFFS 0 1
+  ISBUS 0 0
+  BUSCOMP 0 0 0 0 0
+  SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
+  FIXEDLANES 9 0 0 0 0
+  REC 1 5088 1 0 0 0 0 0
+  VU 64
+  TRACKHEIGHT 0 0 0 0 0 0 0
+  INQ 0 0 0 0.5 100 0 0 100
+  NCHAN 2
+  FX 1
+  TRACKID {AA5754D5-6D0B-3141-A96D-EFFAE908E052}
+  PERF 0
+  UNDO_HAS_TRACKENV
+  MIDIOUT -1
+  MAINSEND 1 0
+  <FXCHAIN
+    WNDRECT 197 232 1051 456
+    SHOW 0
+    LASTSEL 0
+    DOCKED 0
+  >
+  <FXCHAIN_REC
+    WNDRECT 324 348 793 229
+    SHOW 0
+    LASTSEL 0
+    DOCKED 0
+    BYPASS 0 0 0
+    <JS midi/midi_velocitycontrol ""
+      1 60 0 127 0 127 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    >
+    FLOATPOS 0 0 0 0
+    FXID {94055573-3503-D648-9893-80CA55571C9D}
+    WAK 0 0
+  >
+>

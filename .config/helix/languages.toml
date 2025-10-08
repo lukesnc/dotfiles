@@ -3,6 +3,12 @@ name = "bash"
 formatter = { command = 'shfmt', args = ["-i", "4"] }
 
 [[language]]
+name = "c"
+file-types = ["c", "h"]
+indent = { tab-width = 4, unit = "    " }
+language-servers = [ { name = "clangd", except-features = ["format"] } ]
+
+[[language]]
 name = "markdown"
 soft-wrap.enable = true
 formatter = { command = 'prettierd', args = [".md"] }

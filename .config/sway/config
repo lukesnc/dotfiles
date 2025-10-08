@@ -21,7 +21,7 @@ set $menu wmenu-run
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/Pictures/anime-nix-wallpaper-i-created-v0-0f6oxa9y9jlb1.png fill
+# output * bg ~/Pictures/wallpaper.png fill
 #
 # Example configuration:
 #

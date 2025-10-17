@@ -9,7 +9,7 @@ fi
 
 show_help() {
     cat <<EOF
-usage: ${0##*/} [-32ah] FILE
+usage: ${0##*/} [-32ah] FILE ...
 Quickly rip the vst3/vst/component folder out of a plugin installer package.
 depends: bsdtar pkgutil p7zip
   -3  Search for VST3 assets [.vst3] (default mode)
@@ -19,9 +19,62 @@ depends: bsdtar pkgutil p7zip
 EOF
 }
 
+extract_and_install_plugin() {
+    inpath="$1"
+    installpath="$2"
+    searchpattern="$3"
+    echo "Processing $inpath"
+
+    # Extract
+    extractpath=$(mktemp -u)
+    case "$inpath" in
+    *.tar* | *.zip | *.7z)
+        # For some reason bsdtar can handle zip, 7z + more
+        command -v bsdtar
+        mkdir -p "$extractpath"
+        bsdtar -xzf "$inpath" -C "$extractpath"
+        ;;
+    *.pkg)
+        command -v pkgutil
+        pkgutil --expand-full "$inpath" "$extractpath"
+        ;;
+    *.dmg)
+        command -v 7z
+        7z x "$inpath" -o"$extractpath" >/dev/null
+        ;;
+    *)
+        echo "error: unsupported archive format $1"
+        return 1
+        ;;
+    esac
+
+    # Find artifact and copy to VST3 path
+    artifact=$(find "$extractpath" -name "$searchpattern" -print -quit)
+    if [[ -z $artifact ]]; then
+        echo "error: Could not find plugin assets in $extractpath"
+
+        # Check if we should run the search again
+        for ext in '*.pkg' '*.dmg' '*.tar*' '*.zip'; do
+            again=$(find "$extractpath" -name "$ext" -type f -print -quit)
+            if [[ -n $again ]]; then
+                echo 'Found installer within parent package, retrying'
+                extract_and_install_plugin "$again" "$installpath" "$searchpattern"
+                return 0
+            fi
+        done
+
+        return 1
+    fi
+    echo "Found $(basename "$artifact")"
+
+    echo "Attempting to move plugin to $installpath"
+    sudo mkdir -p "$installpath"
+    sudo cp -r "$artifact" "$installpath"
+    echo "Plugin successfully copied to $installpath/$(basename "$artifact")"
+}
+
 # Set mode of operation (VST3, VST, AU)
 # Default mode is VST3
-mode='3'
 installpath='/Library/Audio/Plug-Ins/VST3'
 searchpattern='*.vst3'
 
@@ -29,12 +82,10 @@ OPTIND=1
 while getopts '32ah' opt; do
     case "$opt" in
     2)
-        mode='2'
         installpath='/Library/Audio/Plug-Ins/VST'
         searchpattern='*.vst'
         ;;
     a)
-        mode='a'
         installpath='/Library/Audio/Plug-Ins/Components'
         searchpattern='*.component'
         ;;
@@ -46,71 +97,23 @@ while getopts '32ah' opt; do
 done
 shift "$((OPTIND - 1))"
 
-# Get file path (required)
+# Check for first arg
 if [[ -z $1 ]]; then
     show_help
     exit 1
-elif [[ ! -e $1 ]]; then
-    echo "error: $1 is not a valid path"
-    exit 1
 fi
 
-inpath=$(realpath "$1")
-echo "Processing $inpath"
+# Iterate input file paths
+for argv in "$@"; do
+    if [[ ! -e $argv ]]; then
+        echo "error: $argv is not a valid path"
+        exit 1
+    fi
 
-# Save original inpath to env variable, in case the script
-# calls itself
-if [[ -z $VSTEXTRACT_ORIG_INPATH ]]; then
-    export VSTEXTRACT_ORIG_INPATH="$inpath"
-fi
+    # NOTE: bash is strange and calling this var $inpath conflicts with
+    # the $inpath in extract_and_install_plugin()
+    path=$(realpath "$argv")
+    extract_and_install_plugin "$path" "$installpath" "$searchpattern"
 
-# Extract
-extractpath=$(mktemp -u)
-case "$inpath" in
-*.tar* | *.zip | *.7z)
-    # For some reason bsdtar can handle zip, 7z + more
-    command -v tar
-    mkdir -p "$extractpath"
-    tar -xzf "$inpath" -C "$extractpath"
-    ;;
-*.pkg)
-    command -v pkgutil
-    pkgutil --expand-full "$inpath" "$extractpath"
-    ;;
-*.dmg)
-    command -v 7z
-    7z x "$inpath" -o"$extractpath" >/dev/null
-    ;;
-*)
-    echo "error: unsupported archive format $1"
-    exit 1
-    ;;
-esac
-
-# Find artifact and copy to VST3 path
-artifact=$(find "$extractpath" -name "$searchpattern" -print -quit)
-if [[ -z $artifact ]]; then
-    echo "error: Could not find plugin assets in $extractpath"
-
-    # Check if we should run the search again
-    for ext in '*.pkg' '*.dmg' '*.tar*' '*.zip'; do
-        again=$(find "$extractpath" -name "$ext" -type f -print -quit)
-        if [[ -n $again ]]; then
-            echo 'Found installer within parent package, retrying'
-            exec "$0" "-$mode" "$again"
-        fi
-    done
-
-    exit 1
-fi
-echo "Found $(basename "$artifact")"
-
-echo "Attempting to move plugin to $installpath"
-sudo mkdir -p "$installpath"
-sudo cp -r "$artifact" "$installpath"
-echo "Plugin successfully copied to $installpath/$(basename "$artifact")"
-
-read -p "Delete original $VSTEXTRACT_ORIG_INPATH [y/N]: " yn
-if [[ $yn == [Yy]* ]]; then
-    rm -v "$VSTEXTRACT_ORIG_INPATH"
-fi
+    rm -i "$path"
+done

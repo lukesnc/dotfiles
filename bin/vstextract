@@ -69,9 +69,9 @@ extractpath=$(mktemp -u)
 case "$inpath" in
 *.tar* | *.zip | *.7z)
     # For some reason bsdtar can handle zip, 7z + more
-    command -v tar
+    command -v bsdtar
     mkdir -p "$extractpath"
-    tar -xzf "$inpath" -C "$extractpath"
+    bsdtar -xzf "$inpath" -C "$extractpath"
     ;;
 *.pkg)
     command -v pkgutil

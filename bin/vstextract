@@ -19,18 +19,11 @@ depends: bsdtar pkgutil p7zip
 EOF
 }
 
-orig_inpath=""
 extract_and_install_plugin() {
     inpath="$1"
     installpath="$2"
     searchpattern="$3"
     echo "Processing $inpath"
-
-    # Save original inpath to env variable, in case the script
-    # calls itself
-    if [[ -z $orig_inpath ]]; then
-        export orig_inpath="$inpath"
-    fi
 
     # Extract
     extractpath=$(mktemp -u)
@@ -79,12 +72,6 @@ extract_and_install_plugin() {
     sudo cp -r "$artifact" "$installpath"
     echo "Plugin successfully copied to $installpath/$(basename "$artifact")"
 
-    read -p "Delete original $orig_inpath [y/N]: " yn
-    if [[ $yn == [Yy]* ]]; then
-        rm -v "$orig_inpath"
-    fi
-
-    unset orig_inpath
 }
 
 # Set mode of operation (VST3, VST, AU)
@@ -117,13 +104,20 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-# Iterate rest of arg file paths
+# Iterate input file paths
 for argv in "$@"; do
     if [[ ! -e $argv ]]; then
         echo "error: $argv is not a valid path"
         exit 1
     fi
 
-    inpath=$(realpath "$argv")
-    extract_and_install_plugin "$inpath" "$installpath" "$searchpattern"
+    # NOTE: bash is strange and calling this var $inpath conflicts with
+    # the $inpath in extract_and_install_plugin()
+    path=$(realpath "$argv")
+    extract_and_install_plugin "$path" "$installpath" "$searchpattern"
+
+    read -p "Delete original $path [y/N]: " yn
+    if [[ $yn == [Yy]* ]]; then
+        rm -v "$path"
+    fi
 done

@@ -1,13 +1,16 @@
 set nocompatible
 filetype indent plugin on
 syntax on
+
+set wildmenu
+set path+=**
+
 set number
 set relativenumber
 set ignorecase
 set smartcase
 set hlsearch
 set incsearch
-set wildmenu
 set ruler
 set showmatch
 set hidden
@@ -22,3 +25,5 @@ try
     colorscheme habamax
 catch
 endtry
+
+let g:netrw_liststyle=3

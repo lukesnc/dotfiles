@@ -12,9 +12,6 @@ insert = "bar"
 [editor.file-picker]
 hidden = false
 
-[editor.soft-wrap]
-wrap-indicator = ""
-
 [keys.normal]
 "=" = ":format"
 D = "@vgld"

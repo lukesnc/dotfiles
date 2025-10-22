@@ -15,13 +15,12 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' rehash true
 
-alias ll='ls -lh'
-alias la='ls -lah'
-alias ls='ls --color=auto'
+alias ls='ls -Fh --color=auto'
+alias ll='ls -l'
+alias la='ls -Al'
 alias grep='grep --color=auto'
-# alias ssh='TERM=xterm-256color ssh'
 
 # PROMPT='[%n@%F{red}%m%f %1~]%# '
-PROMPT='%n@%F{magenta}%m%f %1~> '
+# PROMPT='%n@%F{133}%m%f %1~> '
 # PROMPT='[%F{green}%~%f][%F{yellow}%?%f]%% '
-# PROMPT="$SHELL %F{167}%1~%f %# "
+PROMPT="$SHELL %F{167}%1~%f %# "

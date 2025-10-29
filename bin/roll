@@ -1,0 +1,10 @@
+#!/usr/bin/env python3
+
+import random
+import sys
+
+if __name__ == "__main__":
+    args = sys.argv[1].split("d")
+    num, val, *_ = map(int, args)
+    rolls = [random.randint(1, val) for _ in range(num)]
+    print(f"{rolls}\n{sum(rolls)}")

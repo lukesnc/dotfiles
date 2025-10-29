@@ -5,7 +5,6 @@ line-number = "relative"
 auto-pairs = false
 auto-format = false
 default-yank-register = "+"
-rulers = [80]
 
 [editor.cursor-shape]
 insert = "bar"

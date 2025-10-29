@@ -12,7 +12,6 @@ language-servers = [ { name = "clangd", except-features = ["format"] } ]
 name = "markdown"
 soft-wrap.enable = true
 soft-wrap.wrap-indicator = ""
-rulers = []
 formatter = { command = 'prettierd', args = [".md"] }
 
 [[language]]

@@ -1,10 +1,26 @@
 #!/usr/bin/env python3
 
 import random
-import sys
+import argparse
+
+
+class Roll:
+    def __init__(self, rollstr):
+        self.rollstr = rollstr
+        self.rolls, self.total = self._roll()
+
+    def _roll(self):
+        split = self.rollstr.split("d")
+        num, val, *_ = map(int, split)
+        rolls = [random.randint(1, val) for _ in range(num)]
+        return (rolls, sum(rolls))
+
+    def __repr__(self):
+        return "{} {} {}".format(self.rollstr, self.rolls, self.total)
+
 
 if __name__ == "__main__":
-    args = sys.argv[1].split("d")
-    num, val, *_ = map(int, args)
-    rolls = [random.randint(1, val) for _ in range(num)]
-    print(f"{rolls}\n{sum(rolls)}")
+    parser = argparse.ArgumentParser(description="d&d dice roller")
+    parser.add_argument("dice", type=Roll, help="dice to roll [ex: 2d8, 1d20]")
+    args = parser.parse_args()
+    print(args.dice)

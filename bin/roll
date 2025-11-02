@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# examples: roll 1d20
+#           roll 4d8 2d6
 
 import random
 import argparse
@@ -21,6 +23,8 @@ class Roll:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="d&d dice roller")
-    parser.add_argument("dice", type=Roll, help="dice to roll [ex: 2d8, 1d20]")
+    parser.add_argument(
+        "dice", type=Roll, nargs="+", help="dice to roll [ex: 2d8, 1d20]"
+    )
     args = parser.parse_args()
-    print(args.dice)
+    print(*args.dice, sep="\n")

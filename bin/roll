@@ -9,22 +9,29 @@ import argparse
 class Roll:
     def __init__(self, rollstr):
         self.rollstr = rollstr
-        self.rolls, self.total = self._roll()
+        self.modifier = 0
 
     def _roll(self):
         split = self.rollstr.split("d")
         num, val, *_ = map(int, split)
         rolls = [random.randint(1, val) for _ in range(num)]
-        return (rolls, sum(rolls))
+        return (rolls, sum(rolls) + self.modifier)
 
     def __repr__(self):
-        return "{} {} {}".format(self.rollstr, self.rolls, self.total)
+        rolls, total = self._roll()
+        return "{} {} {:+} {}".format(self.rollstr, rolls, self.modifier, total)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="d&d dice roller")
+    parser.add_argument("dice", type=Roll, help="dice to roll [ex: 2d8, 1d20]")
     parser.add_argument(
-        "dice", type=Roll, nargs="+", help="dice to roll [ex: 2d8, 1d20]"
+        "modifier",
+        nargs="?",
+        default=0,
+        type=int,
+        help="modifier to add to roll [ex: +2, -1]",
     )
     args = parser.parse_args()
-    print(*args.dice, sep="\n")
+    args.dice.modifier = args.modifier
+    print(args.dice)

@@ -15,13 +15,8 @@ def diceroll(string):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="d&d dice roller")
     parser.add_argument("dice", type=diceroll, help="dice to roll [ex: 2d8, 1d20]")
-    parser.add_argument(
-        "modifier",
-        nargs="?",
-        default=0,
-        type=int,
-        help="modifier to add to roll [ex: +2, -1]",
-    )
+    parser.add_argument("modifier", nargs="?", default=0, type=int,
+                        help="mod to total [ex: +2, -1] (default: %(default)s)")
     args = parser.parse_args()
 
     rollstr, ndice, val = args.dice

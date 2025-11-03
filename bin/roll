@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # examples: roll 1d20
-#           roll 4d8 2d6
+#           roll 2d10 +3
 
 import random
 import argparse
